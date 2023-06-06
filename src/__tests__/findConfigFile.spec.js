@@ -23,9 +23,10 @@ const possibleExtensions = [
     '.litcoffee',
     '.liticed',
     '.ls',
+    '.mjs',
     '.ts',
     '.tsx',
-    '.wisp'
+    '.wisp',
 ];
 
 describe('findConfigFile', () => {

@@ -295,28 +295,6 @@ describe('webpackWorker', () => {
                 finishedCallback(null, statsObj);
                 expect(statsObj.toString.mock.calls).toMatchSnapshot();
             });
-
-            it('should translate stats string to object', () => {
-                jest.spyOn(console, 'log');
-                let presetToOptions = jest.spyOn(webpackStatsMock, 'presetToOptions');
-
-                const doneCallback = jest.fn();
-
-                webpackWorker('testConfig', {
-                    stats: true,
-                    modulesSort: 'name',
-                    chunksSort: 'size',
-                    assetsSort: 'name',
-                    exclude: ['file'],
-                    colors: true
-                }, 0, 1, doneCallback);
-
-                expect(promiseMock.resolve.mock.calls[0][0]).toEqual({ webpack: 'config' });
-                const thenCb = promiseMock.then.mock.calls[0][0];
-                thenCb({ webpack: 'config', name: 'testApp', 'stats': 'verbose' });
-
-                expect(presetToOptions).toHaveBeenCalled();
-            })
         });
     });
 

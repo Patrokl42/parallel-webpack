@@ -34,6 +34,7 @@ describe('loadConfigurationFile module', () => {
             '.liticed',
             '.ls',
             '.ts',
+            '.mjs',
             '.tsx',
             '.eg'];
         // based on the test, we only care if the array is sorted based on the compare function

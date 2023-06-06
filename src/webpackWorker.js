@@ -34,7 +34,7 @@ function getOutputOptions(webpackConfig, options) {
     var stats = webpackConfig.stats;
     // @see https://webpack.js.org/configuration/stats/
     if (typeof stats === 'string') {
-        stats = presetToOptions(stats);
+        return stats;
     }
     var outputOptions = Object.create(stats || {});
     if(typeof options.modulesSort !== 'undefined') {
@@ -102,7 +102,7 @@ module.exports = function(configuratorFileName, options, index, expectedConfigLe
         var watcher;
         var webpack = getWebpack();
         var hasCompletedOneCompile = false;
-        var outputOptions = getOutputOptions(webpackConfig, options);
+        // var outputOptions = getOutputOptions(webpackConfig, options);
         var disconnected = false;
 
         if(!silent) {
@@ -184,13 +184,13 @@ module.exports = function(configuratorFileName, options, index, expectedConfigLe
                     }
                     return done({
                         message: message,
-                        stats: JSON.stringify(stats.toJson(outputOptions), null, 2)
+                        stats: JSON.stringify(stats.toJson(getOutputOptions(webpackConfig, options)), null, 2)
                     });
                 }
             }
             if(!silent) {
                 if(options.stats) {
-                    console.log(stats.toString(outputOptions));
+                    console.log(stats.toString(getOutputOptions(webpackConfig, options)));
                 }
                 var timeStamp = watch
                     ? ' ' + chalk.yellow(new Date().toTimeString().split(/ +/)[0])
@@ -202,7 +202,7 @@ module.exports = function(configuratorFileName, options, index, expectedConfigLe
                 if (disconnected) {
                     return;
                 }
-                done(null, options.stats ? JSON.stringify(stats.toJson(outputOptions), null, 2) : '');
+                done(null, options.stats ? JSON.stringify(stats.toJson(getOutputOptions(webpackConfig, options)), null, 2) : '');
             } else if (!hasCompletedOneCompile) {
                 notifyIPCWatchCompileDone(index);
                 hasCompletedOneCompile = true;
